@@ -1,9 +1,10 @@
 import sys
-import art
 
+from art import cprint
 from rich.traceback import install
 from rich.prompt import Prompt
 from rich.console import Console
+from rich.table import Table
 from colorama import init
 from termcolor import cprint
 from pyfiglet import figlet_format
@@ -13,7 +14,9 @@ init(strip=not sys.stdout.isatty())  # strip colors if stdout is redirected
 install()
 console = Console()
 prompt = Prompt()
-
+table = Table(title='Payment Schedule', show_lines=True)
+table.add_column('id')
+table.add_column('balance')
 
 def invalid_input():
     console.print("Please enter valid value!", style="red")
@@ -36,15 +39,19 @@ def calculate_mortgage_payoff(
         # Total payment for the month
         total_payment = monthly_payment + extra_payment
 
+
+
         # Apply the payment to the balance
         balance = balance + interest_payment - total_payment
         if balance > 0:
-            console.print(f"{months} - ${balance:.2f}")
+            table.add_row(f'{months}', f'${balance:.2f}')
 
         # Ensure balance doesn't go negative
         if balance < 0:
             balance = 0
-            console.print(f"{months} - ${balance:.2f}")
+            table.add_row(f'{months}', f'${balance:.2f}')
+
+    console.print(table)
 
     years = months // 12
     remaining_months = months % 12
@@ -66,7 +73,7 @@ def main():
         try:
             current_balance = float(prompt.ask("Enter your current balance"))
             cb = False
-        except Exception as e:
+        except Exception as _:
             invalid_input()
 
     air = True
@@ -76,7 +83,7 @@ def main():
                 prompt.ask("Enter your annual interest rate")
             )  # Annual interest rate (as a percentage)
             air = False
-        except Exception as e:
+        except Exception as _:
             invalid_input()
 
     mp = True
@@ -86,7 +93,7 @@ def main():
                 prompt.ask("Enter your monthly mortgage payment")
             )  # Regular monthly payment
             mp = False
-        except Exception as e:
+        except Exception as _:
             invalid_input()
 
     ep = True
@@ -94,10 +101,15 @@ def main():
         try:
             extra_payment = float(prompt.ask("Enter extra payment"))
             ep = False
-        except Exception as e:
+        except Exception as _:
             invalid_input()
 
     print("\n")
+
+    current_balance = 0
+    annual_interest_rate = 0
+    monthly_payment = 0
+    extra_payment = 0
 
     years, remaining_months = calculate_mortgage_payoff(
         current_balance, annual_interest_rate, monthly_payment, extra_payment

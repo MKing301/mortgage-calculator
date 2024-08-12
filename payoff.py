@@ -1,6 +1,6 @@
 import sys
+import art
 
-from art import cprint
 from rich.traceback import install
 from rich.prompt import Prompt
 from rich.console import Console
@@ -63,9 +63,9 @@ def main():
     # Example usage:
     cprint(
         figlet_format("Early Mortgage Payoff Calulator"),
-        "yellow",
-        "on_black",
-        attrs=["bold"],
+        'yellow',
+        'on_black',
+        attrs=['bold']
     )
 
     cb = True
@@ -106,10 +106,6 @@ def main():
 
     print("\n")
 
-    current_balance = 0
-    annual_interest_rate = 0
-    monthly_payment = 0
-    extra_payment = 0
 
     years, remaining_months = calculate_mortgage_payoff(
         current_balance, annual_interest_rate, monthly_payment, extra_payment

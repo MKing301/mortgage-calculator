@@ -23,7 +23,7 @@ def invalid_input():
 
 
 def calculate_mortgage_payoff(
-    balance, annual_interest_rate, monthly_payment, extra_payment=0
+    balance, annual_interest_rate, monthly_payment, extra_payment
 ):
     """Calculate early mortgage payoff, printing monthly balance."""
     # Convert annual rate to monthly decimal
@@ -60,13 +60,17 @@ def calculate_mortgage_payoff(
 
 
 def main():
-    # Example usage:
     cprint(
         figlet_format("Early Mortgage Payoff Calulator"),
         'yellow',
         'on_black',
         attrs=['bold']
     )
+
+    current_balance = 0
+    annual_interest_rate = 0
+    monthly_payment = 0
+    extra_payment = 0
 
     cb = True
     while cb:
